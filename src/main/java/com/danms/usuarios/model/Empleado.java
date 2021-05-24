@@ -1,16 +1,15 @@
 package com.danms.usuarios.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Empleado {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String mail;
     @OneToOne
-    private Usuario user;
+    private Usuario usuario;
 
     public Integer getId() {
         return id;
@@ -28,11 +27,11 @@ public class Empleado {
         this.mail = mail;
     }
 
-    public Usuario getUser() {
-        return user;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUser(Usuario user) {
-        this.user = user;
+    public void setUsuario(Usuario user) {
+        this.usuario = user;
     }
 }

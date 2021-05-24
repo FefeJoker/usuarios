@@ -1,25 +1,23 @@
 package com.danms.usuarios.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Cliente {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String razonSocial;
     private String cuit;
     private String mail;
     private Double maxCuentaCorriente;
     private Boolean habilitadoOnline;
-    @OneToMany
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.DETACH)
     private List<Obra> obras;
-    @OneToOne
-    private Usuario user;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Usuario usuario;
     private Date fechaBaja;
 
     public Integer getId() {
@@ -78,12 +76,12 @@ public class Cliente {
         this.obras = obras;
     }
 
-    public Usuario getUser() {
-        return user;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUser(Usuario user) {
-        this.user = user;
+    public void setUsuario(Usuario user) {
+        this.usuario = user;
     }
 
     public Date getFechaBaja() {

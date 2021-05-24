@@ -28,6 +28,10 @@ public class ObraService {
         return null;
     }
 
+    public Obra saveObraNewCliente(Obra obra){
+        return obraRepository.save(obra);
+    }
+
     public Optional<Obra> getObraById(Integer id){
         return Optional.of(obraRepository.getOne(id));
     }

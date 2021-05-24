@@ -16,9 +16,15 @@ public class ClienteService {
     @Autowired
     ClienteRepository clienteRepository;
 
+    @Autowired
+    ObraService obraService;
+
     public Cliente saveNewCliente(Cliente nuevo){
         nuevo.setHabilitadoOnline(false);
-        nuevo.setUser(new Usuario(nuevo));
+        nuevo.setUsuario(new Usuario(nuevo));
+
+        nuevo.getObras().stream().forEach(o -> obraService.saveObraNewCliente(o));
+
         clienteRepository.save(nuevo);
         return nuevo;
     }

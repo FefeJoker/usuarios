@@ -1,20 +1,21 @@
 package com.danms.usuarios.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Usuario {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String user;
+    private String username;
     private String password;
     @OneToOne
     private TipoUsuario tipoUsuario;
 
+    public Usuario(){};
+
     public Usuario(Cliente cliente){
-        this.user = cliente.getMail();
+        this.username = cliente.getMail();
         this.password = "1234";
     }
 
@@ -26,12 +27,12 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String user) {
+        this.username = user;
     }
 
     public String getPassword() {

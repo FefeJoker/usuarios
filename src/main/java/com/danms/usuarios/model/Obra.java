@@ -1,22 +1,22 @@
 package com.danms.usuarios.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Obra {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String descripcion;
     private Float latitud;
     private Float longitud;
     private String direccion;
     private Integer superficie;
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "tipo_id")
     private TipoObra tipo;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     public Integer getId() {
