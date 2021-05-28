@@ -1,5 +1,6 @@
 package com.danms.usuarios.rest;
 
+import com.danms.usuarios.dtos.ClienteDTO;
 import com.danms.usuarios.model.Cliente;
 import com.danms.usuarios.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,32 +22,42 @@ public class ClienteController {
     ClienteService clienteService;
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Cliente> clientePorId(@PathVariable Integer id){
+    public ResponseEntity<ClienteDTO> clientePorId(@PathVariable Integer id){
 
         Optional<Cliente> c = clienteService.getClienteById(id);
-        return ResponseEntity.of(c);
+
+        if(c.isPresent())  return ResponseEntity.ok(new ClienteDTO(c.get()));
+
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> todos(@RequestParam(name="razonSocial", required = false) String razonSocial){
-        List<Cliente> respuesta;
+    public ResponseEntity<List<ClienteDTO>> todos(@RequestParam(name="razonSocial", required = false) String razonSocial){
+        List<Cliente> listaClientes;
 
-        if(razonSocial == null) respuesta = clienteService.getAllCliente();
-        else    respuesta = clienteService.getClienteByRazonSocial(razonSocial);
+        if(razonSocial == null) listaClientes = clienteService.getAllCliente();
+        else    listaClientes = clienteService.getClienteByRazonSocial(razonSocial);
 
-        if(respuesta.isEmpty()) return ResponseEntity.notFound().build();
-        else    return ResponseEntity.ok(respuesta);
+        if(listaClientes.isEmpty()) return ResponseEntity.notFound().build();
+        else{
+            List<ClienteDTO> respuesta = listaClientes.stream().
+                    map(c -> new ClienteDTO(c)).collect(Collectors.toList());
+            return ResponseEntity.ok(respuesta);
+        }
     }
 
     @GetMapping("/cuit/{cuit}")
-    public ResponseEntity<Cliente> getClienteByCuit(@PathVariable String cuit){
+    public ResponseEntity<ClienteDTO> getClienteByCuit(@PathVariable String cuit){
         Optional<Cliente> clienteOptional= clienteService.getClienteByCuit(cuit);
 
-        return ResponseEntity.of(clienteOptional);
+        if(clienteOptional.isPresent())  return ResponseEntity
+                .ok(new ClienteDTO(clienteOptional.get()));
+
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> crear(@RequestBody Cliente nuevo){
+    public ResponseEntity<ClienteDTO> crear(@RequestBody Cliente nuevo){
         //System.out.println(" crear cliente "+nuevo);
         if(nuevo.getObras().isEmpty() || nuevo.getObras().get(0).getTipo() == null)
             return ResponseEntity.badRequest().build();
@@ -56,24 +67,24 @@ public class ClienteController {
         Cliente guardado = clienteService.saveNewCliente(nuevo);
         //
 
-        return ResponseEntity.ok(guardado);
+        return ResponseEntity.ok(new ClienteDTO(guardado));
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Cliente> actualizar(@RequestBody Cliente nuevo,  @PathVariable Integer id){
+    public ResponseEntity<ClienteDTO> actualizar(@RequestBody Cliente nuevo,  @PathVariable Integer id){
         Optional<Cliente> clienteOptional= clienteService.getClienteById(id);
 
         if(clienteOptional.isPresent()){
             nuevo.setId(id);
             clienteService.updateCliente(nuevo);
-            return ResponseEntity.ok(nuevo);
+            return ResponseEntity.ok(new ClienteDTO(nuevo));
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Cliente> borrar(@PathVariable Integer id){
+    public ResponseEntity<ClienteDTO> borrar(@PathVariable Integer id){
         Optional<Cliente> clienteOptional= clienteService.getClienteById(id);
 
         if(clienteOptional.isPresent()){

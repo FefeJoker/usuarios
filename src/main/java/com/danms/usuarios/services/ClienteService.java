@@ -23,9 +23,13 @@ public class ClienteService {
         nuevo.setHabilitadoOnline(false);
         nuevo.setUsuario(new Usuario(nuevo));
 
-        nuevo.getObras().stream().forEach(o -> obraService.saveObraNewCliente(o));
-
         clienteRepository.save(nuevo);
+
+        nuevo.getObras().stream().forEach(o -> {
+            o.setCliente(nuevo);
+            obraService.saveObraNewCliente(o);
+        });
+
         return nuevo;
     }
 
@@ -47,7 +51,8 @@ public class ClienteService {
 
     public void updateCliente(Cliente cliente){
         if(getClienteById(cliente.getId()).isPresent())
-            clienteRepository.save(cliente);
+            clienteRepository.updateCliente(cliente.getCuit(), cliente.getFechaBaja(), cliente.getHabilitadoOnline(),
+                    cliente.getMail(), cliente.getMaxCuentaCorriente(), cliente.getRazonSocial(), cliente.getId());
     }
 
     public void deleteCliente(Integer id){

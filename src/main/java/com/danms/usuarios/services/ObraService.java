@@ -24,6 +24,7 @@ public class ObraService {
             obraRepository.save(obra);
             cliente.addObra(obra);
             clienteService.updateCliente(cliente);
+            return obra;
         }
         return null;
     }
@@ -38,7 +39,8 @@ public class ObraService {
 
     public void updateObra(Obra obra){
         if(getObraById(obra.getId()).isPresent())
-            obraRepository.save(obra);
+            obraRepository.updateObra(obra.getDescripcion(), obra.getDireccion(),
+                    obra.getLatitud(), obra.getLongitud(), obra.getSuperficie(), obra.getId());
     }
 
     public List<Obra> getObrasByClienteAndTipo(Integer cliente, Integer tipo){
@@ -46,7 +48,8 @@ public class ObraService {
     }
 
     public List<Obra> getObrasByCliente(Integer cliente){
-        return obraRepository.getObrasByCliente(cliente);
+        Cliente cliente1 = clienteService.getClienteById(cliente).get();
+        return obraRepository.getObrasByCliente(cliente1);
     }
 
     public List<Obra> getObrasByTipo(Integer tipo){

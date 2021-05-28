@@ -4,7 +4,7 @@ create table empleado (id int4 not null, mail varchar(255), user_id int4, primar
 create table obra (id int4 not null, descripcion varchar(255), direccion varchar(255), latitud float4, longitud float4, superficie int4, cliente_id int4, tipo_id int4, primary key (id))
 create table tipo_obra (id int4 not null, descripcion varchar(255), primary key (id))
 create table tipo_usuario (id int4 not null, tipo varchar(255), primary key (id))
-create table usuario (id int4 not null, password varchar(255), user varchar(255), tipo_usuario_id int4, primary key (id))
+create table usuario (id int4 not null, password varchar(255), username varchar(255), tipo_usuario_id int4, primary key (id))
 alter table if exists cliente_obras add constraint UK_f8ot3errhmx86hghg7dd43dri unique (obras_id)
 alter table if exists cliente add constraint FK51q58w7p2gonvu6xsuyp3t2bo foreign key (user_id) references usuario
 alter table if exists cliente_obras add constraint FKtrufkwlx0plkmvig4dmxqfv25 foreign key (obras_id) references obra

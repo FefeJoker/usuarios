@@ -1,25 +1,27 @@
-package com.danms.usuarios.model;
+package com.danms.usuarios.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.danms.usuarios.model.Obra;
+import com.danms.usuarios.model.TipoObra;
 
-import javax.persistence.*;
 
-@Entity
-public class Obra {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class ObraDTO {
     private Integer id;
     private String descripcion;
     private Float latitud;
     private Float longitud;
     private String direccion;
     private Integer superficie;
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "tipo_id", updatable = false)
     private TipoObra tipo;
-    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id", updatable = false)
-    private Cliente cliente;
+
+    public ObraDTO(Obra obra){
+        this.id = obra.getId();
+        this.descripcion = obra.getDescripcion();
+        this.latitud = obra.getLatitud();
+        this.longitud = obra.getLongitud();
+        this.direccion = obra.getDireccion();
+        this.superficie = obra.getSuperficie();
+        this.tipo = obra.getTipo();
+    }
 
     public Integer getId() {
         return id;
@@ -75,13 +77,5 @@ public class Obra {
 
     public void setTipo(TipoObra tipo) {
         this.tipo = tipo;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 }

@@ -1,5 +1,6 @@
 package com.danms.usuarios.rest;
 
+import com.danms.usuarios.dtos.ObraDTO;
 import com.danms.usuarios.model.Obra;
 import com.danms.usuarios.services.ObraService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class ObraController {
     ObraService obraService;
 
     @PostMapping
-    public ResponseEntity<Obra> create(@RequestBody Obra obra){
+    public ResponseEntity<ObraDTO> create(@RequestBody Obra obra){
         obra.setId(null);
         if(obra.getCliente() == null || obra.getCliente().getId() == null){
             return ResponseEntity.notFound().build();
@@ -33,17 +34,17 @@ public class ObraController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(resultado);
+        return ResponseEntity.ok(new ObraDTO(resultado));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Obra> update(@RequestBody Obra obra, @PathVariable Integer id){
+    public ResponseEntity<ObraDTO> update(@RequestBody Obra obra, @PathVariable Integer id){
         Optional<Obra> obraOptional = obraService.getObraById(id);
 
         if(obraOptional.isPresent()){
             obra.setId(id);
             obraService.updateObra(obra);
-            return ResponseEntity.ok(obra);
+            return ResponseEntity.ok(new ObraDTO(obra));
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -64,15 +65,16 @@ public class ObraController {
     }*/
 
     @GetMapping
-    public ResponseEntity<List<Obra>> all(@RequestParam(name="idCliente", required = false) Integer idCliente,
+    public ResponseEntity<List<ObraDTO>> all(@RequestParam(name="idCliente", required = false) Integer idCliente,
                                           @RequestParam(name="tipoObra", required = false) Integer idTipoObra){
-        List<Obra> respuesta;
+        List<Obra> listaObras;
 
-        if(idCliente != null && idTipoObra != null) respuesta =
+        if(idCliente != null && idTipoObra != null) listaObras =
                 obraService.getObrasByClienteAndTipo(idCliente, idTipoObra);
-        else if(idCliente != null) respuesta = obraService.getObrasByCliente(idCliente);
-        else if(idTipoObra != null) respuesta = obraService.getObrasByTipo(idTipoObra);
+        else if(idCliente != null) listaObras = obraService.getObrasByCliente(idCliente);
+        else if(idTipoObra != null) listaObras = obraService.getObrasByTipo(idTipoObra);
         else    return ResponseEntity.notFound().build();
+        List<ObraDTO> respuesta = listaObras.stream().map(o -> new ObraDTO(o)).collect(Collectors.toList());
         return ResponseEntity.ok(respuesta);
     }
 }
