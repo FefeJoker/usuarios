@@ -1,8 +1,10 @@
 package com.danms.usuarios.rest;
 
 import com.danms.usuarios.dtos.ObraDTO;
+import com.danms.usuarios.dtos.ObraDTOOnlyDescripcion;
 import com.danms.usuarios.model.Obra;
 import com.danms.usuarios.services.ObraService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -76,5 +78,14 @@ public class ObraController {
         else    return ResponseEntity.notFound().build();
         List<ObraDTO> respuesta = listaObras.stream().map(o -> new ObraDTO(o)).collect(Collectors.toList());
         return ResponseEntity.ok(respuesta);
+    }
+
+    @GetMapping("/{idObra}")
+    public ResponseEntity<ObraDTOOnlyDescripcion> get(@PathVariable Integer idObra){
+        Obra obra = obraService.getObraById(idObra).orElse(null);
+        if(obra == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(new ObraDTOOnlyDescripcion(obra));
     }
 }

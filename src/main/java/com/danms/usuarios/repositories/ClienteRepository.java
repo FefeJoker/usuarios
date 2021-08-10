@@ -9,12 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     public List<Cliente> getClientesByRazonSocialAndFechaBajaIsNull(String razonSocial);
     public Cliente getClienteByCuitAndFechaBajaIsNull(String cuit);
-    public Cliente getClienteByIdAndFechaBajaIsNull(Integer id);
+    public Optional<Cliente> getClienteByIdAndFechaBajaIsNull(Integer id);
 
     @Transactional
     @Modifying

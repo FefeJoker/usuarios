@@ -34,7 +34,7 @@ public class ClienteService {
     }
 
     public Optional<Cliente> getClienteById(Integer id){
-        return Optional.of(clienteRepository.getClienteByIdAndFechaBajaIsNull(id));
+        return clienteRepository.getClienteByIdAndFechaBajaIsNull(id);
     }
 
     public List<Cliente> getAllCliente(){

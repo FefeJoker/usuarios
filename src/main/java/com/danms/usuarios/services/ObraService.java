@@ -19,11 +19,11 @@ public class ObraService {
     ClienteService clienteService;
 
     public Obra saveNewObra(Obra obra){
-        Cliente cliente = clienteService.getClienteById(obra.getCliente().getId()).orElse(null);
-        if(cliente != null){
+        Optional<Cliente> cliente = clienteService.getClienteById(obra.getCliente().getId());
+        if(cliente.isPresent()){
             obraRepository.save(obra);
-            cliente.addObra(obra);
-            clienteService.updateCliente(cliente);
+            cliente.get().addObra(obra);
+            clienteService.updateCliente(cliente.get());
             return obra;
         }
         return null;
@@ -34,7 +34,7 @@ public class ObraService {
     }
 
     public Optional<Obra> getObraById(Integer id){
-        return Optional.of(obraRepository.getOne(id));
+        return obraRepository.findById(id);
     }
 
     public void updateObra(Obra obra){
