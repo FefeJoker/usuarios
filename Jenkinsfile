@@ -8,6 +8,7 @@ pipeline {
                 branch 'master'
             }
             steps {
+                sh "chmod -R 777 /var/jenkins_home/workspace/DAN-Lab-Usuarios_develop/"
                 sh "java -version"
                 sh "./mvnw clean"
             }
