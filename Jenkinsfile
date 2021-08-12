@@ -8,8 +8,8 @@ pipeline {
                 branch 'master'
             }
             steps {
-                bat "java -version"
-                bat "./mvnw clean"
+                sh "java -version"
+                sh "./mvnw clean"
             }
         }
         stage('clean-develop') {
@@ -17,21 +17,21 @@ pipeline {
                 branch 'develop'
             }
             steps {
-                bat "java -version"
-                bat "./mvnw clean"
-                bat "echo buildeando develop"
+                sh "java -version"
+                sh "./mvnw clean"
+                sh "echo buildeando develop"
             }
         }
         stage('backend tests') {
             steps {
-                bat "./mvnw verify"
-                bat "echo 'configurar para ejecutar los tests'"
+                sh "./mvnw verify"
+                sh "echo 'configurar para ejecutar los tests'"
             }
         }
         stage('Analisis estatico') {
             steps {
-                bat "./mvnw site"
-                bat "./mvnw checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
+                sh "./mvnw site"
+                sh "./mvnw checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
             }
         }
     }
