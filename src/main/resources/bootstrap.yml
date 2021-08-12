@@ -1,0 +1,34 @@
+spring:  
+  application:
+    name: usuarios-service
+
+  cloud:
+    consul:
+      host: 104.198.16.92
+      port: 8500
+      discovery:
+        instance-id: "usuario-container"
+        prefer-ip-address: true
+
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
+server:
+  port: 0
+
+---
+spring:
+  profiles: zone1
+  cloud:
+    consul:
+      discovery:
+        instanceZone: zone1
+
+---
+spring:
+  profiles: zone2
+  cloud:
+    consul:
+      discovery:
+        instanceZone: zone2
