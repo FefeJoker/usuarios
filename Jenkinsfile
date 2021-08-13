@@ -3,6 +3,11 @@
 pipeline {
     agent any
     stages {
+        stage('permissions setup'){
+            steps{
+                sh 'chmod 777 -R /var/lib/jenkins/workspace/DAN-Lab-Usuarios_develop'
+            }
+        }
         stage('clean') {
             when {
                 branch 'master'
@@ -28,12 +33,12 @@ pipeline {
                 sh "echo 'configurar para ejecutar los tests'"
             }
         }
-        stage('Analisis estatico') {
+        /*stage('analisis estatico') {
             steps {
                 sh "./mvnw site"
                 sh "./mvnw checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
             }
-        }
+        }*/
     }
     post {
         success{
