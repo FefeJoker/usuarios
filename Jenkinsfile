@@ -3,11 +3,36 @@
 pipeline {
     agent any
     stages {
-        stage ('Build') {
-            git url: 'https://github.com/FefeJoker/usuarios'
-            withMaven {
-                sh "mvn clean verify"
-            } // withMaven will discover the generated Maven artifacts, JUnit Surefire & FailSafe reports and FindBugs reports
+        stage('clean') {
+            when {
+                branch 'master'
+            }
+            steps {
+                sh "java -version"
+                sh "./mvnw clean"
+            }
+        }
+        stage('clean-develop') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                sh "java -version"
+                sh "./mvnw clean"
+                sh "echo buildeando develop"
+            }
+        }
+        stage('backend tests') {
+            steps {
+                sh "./mvnw verify"
+                sh "echo 'configurar para ejecutar los tests'"
+            }
+        }
+        stage('Analisis estatico') {
+            steps {
+                sh "./mvnw site"
+                sh "./mvnw checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
+            }
         }
     }
     post {
@@ -17,11 +42,11 @@ pipeline {
         always{
             archiveArtifacts artifacts: '**/target/site/**', fingerprint: true
             publishHTML([allowMissing: false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'target/site',
-                        reportFiles: 'index.html',
-                        reportName: 'Site'
+                         alwaysLinkToLastBuild: true,
+                         keepAll: true,
+                         reportDir: 'target/site',
+                         reportFiles: 'index.html',
+                         reportName: 'Site'
             ])
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
             jacoco ( execPattern: 'target/jacoco.exec')
