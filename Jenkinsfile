@@ -3,36 +3,11 @@
 pipeline {
     agent any
     stages {
-        stage('clean') {
-            when {
-                branch 'master'
-            }
-            steps {
-                bat "java -version"
-                bat "./mvnw clean"
-            }
-        }
-        stage('clean-develop') {
-            when {
-                branch 'develop'
-            }
-            steps {
-                bat "java -version"
-                bat "./mvnw clean"
-                bat "echo buildeando develop"
-            }
-        }
-        stage('backend tests') {
-            steps {
-                bat "./mvnw verify"
-                bat "echo 'configurar para ejecutar los tests'"
-            }
-        }
-        stage('Analisis estatico') {
-            steps {
-                bat "./mvnw site"
-                bat "./mvnw checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
-            }
+        stage ('Build') {
+            git url: 'https://github.com/FefeJoker/usuarios'
+            withMaven {
+                sh "mvn clean verify"
+            } // withMaven will discover the generated Maven artifacts, JUnit Surefire & FailSafe reports and FindBugs reports
         }
     }
     post {
