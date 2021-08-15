@@ -9,6 +9,7 @@ spring:
       discovery:
         instance-id: "usuarios-service"
         prefer-ip-address: true
+        port: 9000
 
 
 logging:
