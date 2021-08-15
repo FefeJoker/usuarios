@@ -10,13 +10,16 @@ spring:
         instance-id: "usuarios-service"
         prefer-ip-address: true
 
+
 logging:
   level:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 
 server:
   port: 0
-
+management:
+  server:
+    port: 9000
 ---
 spring:
   profiles: zone1
