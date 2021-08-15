@@ -7,7 +7,7 @@ spring:
       host: 104.198.16.92
       port: 8500
       discovery:
-        instance-id: "usuario-container"
+        instance-id: "usuarios-service"
         prefer-ip-address: true
 
 logging:
