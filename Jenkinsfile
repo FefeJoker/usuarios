@@ -27,10 +27,14 @@ pipeline {
                 sh "echo buildeando develop"
             }
         }
-        stage('backend tests') {
+        stage('dockershit') {
             steps {
-                sh "./mvnw verify"
-                sh "echo 'configurar para ejecutar los tests'"
+                sh "mvn clean install"
+                sh "mvn clean package spring-boot:repackage"
+                sh "docker build -t guillegregoret/usuarios ."
+                sh 'docker ps -f name=usuario-service -q | xargs --no-run-if-empty docker container stop'
+                sh 'docker container ls -a -fname=usuario-service -q | xargs -r docker container rm'
+                sh "docker run -d --name usuario-service -p 9000:9000 guillegregoret/usuarios"
             }
         }
         /*stage('analisis estatico') {
