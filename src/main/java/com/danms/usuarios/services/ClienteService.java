@@ -6,6 +6,7 @@ import com.danms.usuarios.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +48,10 @@ public class ClienteService {
 
     public Optional<Cliente> getClienteByCuit(String cuit){
         return Optional.of(clienteRepository.getClienteByCuitAndFechaBajaIsNull(cuit));
+    }
+
+    public Cliente getClienteByUsuario(Usuario usuario){
+        return clienteRepository.getClienteByUsuario(usuario).orElse(null);
     }
 
     public void updateCliente(Cliente cliente){

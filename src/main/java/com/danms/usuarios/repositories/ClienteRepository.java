@@ -1,6 +1,7 @@
 package com.danms.usuarios.repositories;
 
 import com.danms.usuarios.model.Cliente;
+import com.danms.usuarios.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     public List<Cliente> getClientesByRazonSocialAndFechaBajaIsNull(String razonSocial);
     public Cliente getClienteByCuitAndFechaBajaIsNull(String cuit);
     public Optional<Cliente> getClienteByIdAndFechaBajaIsNull(Integer id);
+    public Optional<Cliente> getClienteByUsuario(Usuario usuarioId);
 
     @Transactional
     @Modifying

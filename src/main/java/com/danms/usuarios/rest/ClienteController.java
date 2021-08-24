@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/cliente")
 public class ClienteController {
 
@@ -58,8 +59,7 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<ClienteDTO> crear(@RequestBody Cliente nuevo){
-        //System.out.println(" crear cliente "+nuevo);
-        if(nuevo.getObras().isEmpty() || nuevo.getObras().get(0).getTipo() == null)
+       if(nuevo.getObras().isEmpty() || nuevo.getObras().get(0).getTipo() == null)
             return ResponseEntity.badRequest().build();
 
         //

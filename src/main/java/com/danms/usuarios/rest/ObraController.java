@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/obra")
 public class ObraController {
 
