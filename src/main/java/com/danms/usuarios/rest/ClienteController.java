@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RestController
-@CrossOrigin(origins = {"http://104.198.16.92", "http://190.190.173.85", "http://190.3.50.121"})
+@CrossOrigin("*")
 @RequestMapping("/api/cliente")
 public class ClienteController {
 
