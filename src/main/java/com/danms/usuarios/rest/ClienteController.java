@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api/cliente")
 public class ClienteController {
 
