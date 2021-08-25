@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://104.198.16.92", "http://190.190.173.85", "http://190.3.50.121"})
 @RequestMapping("/api/tipo-obra")
 public class TipoObraController {
     @Autowired
