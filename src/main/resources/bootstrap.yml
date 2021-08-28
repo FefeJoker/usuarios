@@ -7,9 +7,9 @@ spring:
       host: 104.198.16.92
       port: 8500
       discovery:
-        instance-id: "usuarios-service"
+        instance-id: "usuarios-service:${random.int[1,99]}"
         prefer-ip-address: true
-        port: 9000
+     #   port: 9000
 
 
 logging:
@@ -18,9 +18,9 @@ logging:
 
 server:
   port: 0
-management:
-  server:
-    port: 9000
+#management:
+##  server:
+ #   port: 9000
 ---
 spring:
   profiles: zone1
