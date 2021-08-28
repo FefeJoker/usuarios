@@ -6,7 +6,7 @@ spring:
       host: 104.198.16.92
       port: 8500
       discovery:
-        ip-address: 10.128.0.3
+        ip-address: 10.128.0.2
 
   output.ansi.enabled: ALWAYS
 
